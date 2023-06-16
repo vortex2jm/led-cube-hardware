@@ -1,4 +1,3 @@
-// Implementing for NodeMCU ESP8266 WiFi
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
@@ -10,41 +9,42 @@ const char* password = "123456789";
 ESP8266WebServer server(80);
 
 void setup() {
-  // Initializing serial monitor
+  // put your setup code here, to run once:
   Serial.begin(9600);
   WiFi.softAP(ssid, password);
 
-  // Getting IP adress
   IPAddress myIP = WiFi.softAPIP();
   Serial.print("Access Point IP:");
   Serial.println(myIP);
 
-  // Controlling routes
   server.on("/", get_effects);
+  server.on("/exec_effect", callback);
   
-  // Starting server
   server.begin();
   Serial.println("HTTP Server Started...");
 }
 
 void loop() {
+  // put your main code here, to run repeatedly:
   server.handleClient();
 
   // Apply led cube logic here
 }
 
-// Response example for getting effects names
 void get_effects(){
   Serial.println("Connect sucefull");
-   server.send(200, "application/json", "{\"effects\": [\\ 
-   { \"id\": \"joao\" },\\
-   { \"id\": \"arthur\" },\\
-   { \"id\": \"ana tereza\" },\\
-   { \"id\": \"vitor\" },\\
-   { \"id\": \"joao pedro\" },\\
-   { \"id\": \"luis\" },\\
-   { \"id\": \"caio\" },\\
-   { \"id\": \"sofia\" } \\
-   ] }" );
+  server.send(200, "application/json", "{\"effects\": [\\ 
+  { \"id\": \"joao\" },\\
+  { \"id\": \"arthur\" },\\
+  { \"id\": \"ana tereza\" },\\
+  { \"id\": \"vitor\" },\\
+  { \"id\": \"joao pedro\" },\\
+  { \"id\": \"luis\" },\\
+  { \"id\": \"caio\" },\\
+  { \"id\": \"sofia\" } \\
+  ] }" );
 }
 
+void callback(){
+  // mapear o nome da função que vem no corpo da requisição e executá-la
+}
